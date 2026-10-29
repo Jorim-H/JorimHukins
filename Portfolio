@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<title>Jorim Hukins</title>
+<meta name="description" content="Jorim Hukins: operations, design, and photography from Acadiana.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Karla:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== Design tokens: change colors and fonts here ===== */
+:root{
+  --cream:#F6F1E9; --sand:#E8DDCC; --espresso:#2E241D; --brown:#8B6F55; --clay:#B4693E;
+  --bg:var(--cream); --panel:var(--sand); --ink:var(--espresso); --muted:var(--brown); --accent:var(--clay);
+  --line:rgba(46,36,29,.14);
+  --font-display:"Bricolage Grotesque", "Arial Narrow", Arial, sans-serif;
+  --font-body:Karla, "Helvetica Neue", Arial, sans-serif;
+  --nav-h:56px; --wrap:1180px;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* Light theme only, on purpose: every visitor sees the same design, whatever their device setting */
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px))}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:1.125rem; line-height:1.6; -webkit-font-smoothing:antialiased}
+img{max-width:100%; display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 clamp(20px,5vw,48px)}
+h1,h2,h3{font-family:var(--font-display); font-weight:700; line-height:1.05; margin:0; letter-spacing:-.01em}
+
+/* Placeholder marker: delete class="tbd" once the text is final */
+.tbd{outline:1.5px dashed var(--accent); outline-offset:5px; border-radius:2px}
+
+/* ===== Navigation: sticky, takes its own space, never covers content ===== */
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); background:var(--bg); z-index:10}
+.nav{position:sticky; top:env(safe-area-inset-top,0px); z-index:9; height:var(--nav-h); background:var(--bg); border-bottom:1px solid var(--line)}
+.nav .wrap{height:100%; display:flex; align-items:center; justify-content:space-between; gap:24px}
+.nav .name{font-family:var(--font-display); font-weight:700; font-size:1.1rem; text-decoration:none; white-space:nowrap}
+.nav ul{list-style:none; margin:0; padding:0; display:flex; gap:clamp(14px,2.4vw,30px); overflow-x:auto; scrollbar-width:none}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a.link{font-size:.95rem; text-decoration:none; color:var(--muted); white-space:nowrap; padding:6px 0; border-bottom:2px solid transparent; transition:color .2s,border-color .2s}
+.nav a.link:hover{color:var(--ink)}
+.nav a.link.active{color:var(--ink); border-bottom-color:var(--accent)}
+@media (max-width:640px){.nav .name{display:none} .nav .wrap{justify-content:flex-start} .nav ul{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent); mask-image:linear-gradient(90deg,#000 85%,transparent); padding-right:24px}}
+
+/* ===== Landing ===== */
+.hero{position:relative; height:calc(100svh - var(--nav-h) - env(safe-area-inset-top,0px)); min-height:460px; max-height:920px; overflow:hidden}
+.hero img{width:100%; height:100%; object-fit:cover; object-position:50% 60%}
+.hero .copy{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-start; padding-top:clamp(32px,7vh,90px); color:#2E241D}
+.hero h1{font-size:clamp(3rem,7.5vw,6.5rem); font-weight:800; letter-spacing:-.035em; line-height:.92; text-wrap:balance}
+.hero p{font-size:clamp(1.15rem,2.2vw,1.6rem); margin:22px 0 0; max-width:30ch; line-height:1.35}
+
+/* ===== Shared section spacing ===== */
+section{padding:clamp(72px,11vw,140px) 0}
+.section-head{max-width:46rem; margin-bottom:clamp(36px,5vw,56px)}
+.section-head h2{font-size:clamp(2.2rem,5.5vw,3.8rem)}
+.section-head p{color:var(--muted); margin:14px 0 0; font-size:1.2rem}
+
+/* ===== About ===== */
+.about-grid{display:grid; grid-template-columns:minmax(200px,340px) 1fr; gap:clamp(32px,6vw,80px); align-items:center}
+.about-grid img{width:100%; aspect-ratio:1; object-fit:cover; border-radius:6px}
+.about-grid h2{font-size:clamp(2rem,4.5vw,3.2rem); margin-bottom:20px}
+.about-grid p{margin:0; max-width:60ch}
+@media (max-width:760px){.about-grid{grid-template-columns:1fr} .about-grid img{max-width:300px}}
+
+/* ===== Through My Lens ===== */
+#lens{background:var(--panel)}
+.set{margin-top:clamp(48px,7vw,88px)}
+.set:first-of-type{margin-top:0}
+.set h3{font-size:1.5rem; margin-bottom:22px; display:flex; align-items:baseline; gap:14px}
+.set h3 span{font-family:var(--font-body); font-weight:400; font-size:1rem; color:var(--muted)}
+.gallery{columns:3 280px; column-gap:14px}
+.shot{display:block; width:100%; margin:0 0 14px; padding:0; border:0; background:none; cursor:zoom-in; break-inside:avoid; border-radius:4px; overflow:hidden}
+.shot img{width:100%; height:auto; max-height:520px; object-fit:cover; transition:transform .5s ease}
+.shot:hover img{transform:scale(1.025)}
+@media (prefers-reduced-motion:reduce){.shot img{transition:none}}
+
+/* ===== Lightbox ===== */
+dialog.lightbox{border:0; padding:0; max-width:none; max-height:none; width:100vw; height:100dvh; background:rgba(20,15,12,.94); color:#F1E8DA}
+dialog.lightbox::backdrop{background:transparent}
+.lb-inner{height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:calc(env(safe-area-inset-top,0px) + 56px) 64px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.lb-inner img{max-width:100%; max-height:calc(100% - 48px); object-fit:contain}
+.lb-cap{margin-top:14px; font-size:1rem; opacity:.85; white-space:pre}
+.lb-btn{position:absolute; background:none; border:0; color:inherit; font-size:2rem; line-height:1; padding:12px 16px; cursor:pointer; opacity:.8}
+.lb-btn:hover{opacity:1}
+.lb-close{top:calc(env(safe-area-inset-top,0px) + 8px); right:12px}
+.lb-prev{left:6px; top:50%; transform:translateY(-50%)}
+.lb-next{right:6px; top:50%; transform:translateY(-50%)}
+@media (max-width:640px){.lb-inner{padding-left:12px; padding-right:12px} .lb-prev,.lb-next{top:auto; bottom:calc(env(safe-area-inset-bottom,0px) + 8px); transform:none}}
+
+/* ===== Things I've Made ===== */
+.made{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:clamp(28px,4vw,48px)}
+.made-slot{aspect-ratio:4/3; border:1.5px dashed var(--line); border-radius:6px; display:grid; place-items:center; color:var(--muted); font-size:1rem; text-align:center; padding:20px; background:var(--panel)}
+.project{position:relative; display:block; width:100%; aspect-ratio:4/3; padding:0; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--panel); cursor:zoom-in; font:inherit; color:inherit; transition:border-color .2s}
+.project:hover{border-color:var(--accent)}
+.project.row{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:18px 14px; align-items:center}
+.project.row img{width:100%; height:auto; border-radius:3px; box-shadow:0 2px 8px rgba(46,36,29,.2)}
+.project.frame{display:flex; flex-direction:column; background:var(--bg)}
+.project.frame .bar{flex:none; height:24px; display:flex; align-items:center; gap:6px; padding:0 10px; background:var(--panel); border-bottom:1px solid var(--line)}
+.project.frame .bar i{width:8px; height:8px; border-radius:50%; background:var(--muted); opacity:.45}
+.project.frame img{flex:1; min-height:0; width:100%; object-fit:cover; object-position:top}
+.project.frame img:not(:first-of-type){display:none}
+.project.frame img.cover-left{object-position:left top}
+.badge{position:absolute; right:10px; bottom:10px; background:var(--ink); color:var(--bg); font-size:.8rem; font-weight:600; padding:4px 11px; border-radius:999px}
+.made h3{font-size:1.5rem; margin:20px 0 8px}
+.made p{margin:0; color:var(--muted); max-width:46ch}
+
+/* ===== How I Work ===== */
+#how{border-top:1px solid var(--line)}
+.how-intro{max-width:44rem; font-size:1.25rem; margin:0 0 clamp(40px,6vw,64px)}
+.principles{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:clamp(28px,4vw,48px)}
+.principles > div{background:var(--sand); border-top:3px solid var(--accent); padding:22px 22px 24px; border-radius:6px; box-shadow:0 6px 18px rgba(46,36,29,.10)}
+.principles h3{font-size:1.35rem; margin-bottom:10px}
+.principles p{margin:0; color:var(--muted)}
+.how-note{margin:clamp(36px,5vw,56px) 0 0; color:var(--muted)}
+.how-note a{color:var(--ink); text-decoration-color:var(--accent); text-underline-offset:3px}
+.example{margin-top:clamp(48px,7vw,80px); padding:24px 28px; background:var(--sand); border-left:3px solid var(--accent); border-radius:6px; box-shadow:0 6px 18px rgba(46,36,29,.10); max-width:46rem}
+.example h3{font-size:1.35rem; margin-bottom:10px}
+.example p{margin:0}
+
+/* ===== Contact ===== */
+#contact{background:var(--panel)}
+#contact h2{font-size:clamp(2.6rem,7vw,5rem)}
+#contact p{max-width:44ch; font-size:1.25rem; margin:20px 0 32px}
+.btn{display:inline-block; background:var(--ink); color:var(--bg); text-decoration:none; font-weight:600; padding:14px 26px; border-radius:999px; transition:background .2s}
+.btn:hover{background:var(--accent)}
+button.btn{border:0; font:inherit; font-weight:600; cursor:pointer}
+.copy-hint{margin-left:12px; padding-left:12px; border-left:1px solid currentColor; font-weight:400; opacity:.75}
+.contact-links{display:flex; flex-wrap:wrap; gap:14px; margin-top:32px}
+.btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--ink); padding:12.5px 24.5px}
+.btn-ghost:hover{background:var(--ink); color:var(--bg)}
+footer{padding:28px 0; font-size:.95rem; color:var(--muted)}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="name" href="#top">Jorim Hukins</a>
+    <ul>
+      <li><a class="link" href="#about">About</a></li>
+      <li><a class="link" href="#lens">Photography</a></li>
+      <li><a class="link" href="#made">Design Work</a></li>
+      <li><a class="link" href="#how">How I Work</a></li>
+      <li><a class="link" href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <img src="images/hero-orange-rower.jpg" alt="A lone rower crossing Lake Martin under an orange sunset sky" fetchpriority="high">
+  <div class="copy wrap">
+    <h1>Jorim Hukins</h1>
+    <p>Organized by trade. Creative by nature.</p>
+  </div>
+</header>
+
+<main>
+<section id="about">
+  <div class="wrap about-grid">
+    <img src="images/about-jorim.jpg" alt="Jorim Hukins making a wide-eyed face at the camera">
+    <div>
+      <h2>About me</h2>
+      <p>I’m a creative operations professional from Acadiana with more than 10 years of experience keeping businesses organized and running smoothly, and a lifelong eye for design. At General Office Supply, I ran operations for a multi-location business, helped design the company’s website, and created branded showroom signage that’s still in use. I studied web design at Full Sail University, and I’ve been behind a camera since my yearbook days. Whether it’s a process, a page, or a picture, I like making things work well and look good.</p>
+    </div>
+  </div>
+</section>
+
+<section id="lens">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Through My Lens</h2>
+      <p>Places, light, and moments that caught my eye.</p>
+    </div>
+
+    <div class="set">
+      <h3>Acadiana <span>Lake Martin and home</span></h3>
+      <div class="gallery">
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-01-egret.jpg" alt="A white egret perched among moss-draped cypress at dusk"></button>
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-02-houseboat.jpg" alt="A houseboat in golden light beneath tall cypress trees"></button>
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-03-cypress-sunset.jpg" alt="Cypress trees silhouetted against a sunset over still water"></button>
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-04-boat-lone-cypress.jpg" alt="A small boat passing a lone cypress tree on the lake"></button>
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-05-golden-cypress.jpg" alt="Moss-covered cypress glowing gold, seen through tall grass"></button>
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-06-rower.jpg" alt="A rower in a single scull on dark water"></button>
+        <button class="shot" data-cap="Lake Martin, Breaux Bridge"><img loading="lazy" src="images/acadiana-07-framed-lake.jpg" alt="The lake framed by hanging moss on both sides"></button>
+        <button class="shot" data-cap="Roadside stop, south Louisiana"><img loading="lazy" src="images/acadiana-08-rural-sunset.jpg" alt="Sunset over a field with a fallen tree and a small house"></button>
+        <button class="shot" data-cap="Taking off from New Orleans"><img loading="lazy" src="images/acadiana-09-river-from-above.jpg" alt="A river and city lights seen from an airplane at sunset"></button>
+      </div>
+    </div>
+
+    <div class="set">
+      <h3>Structure &amp; City</h3>
+      <div class="gallery">
+        <button class="shot" data-cap="Sloss Furnaces, Birmingham"><img loading="lazy" src="images/city-01-sloss-tower-night.jpg" alt="A lit water tower and furnace stacks at night under a full moon"></button>
+        <button class="shot" data-cap="Houston"><img loading="lazy" src="images/city-02-houston-through-fence.jpg" alt="The Houston skyline seen through a broken chain-link fence"></button>
+        <button class="shot" data-cap="Houston"><img loading="lazy" src="images/city-03-love-lock.jpg" alt="A red heart-shaped lock on a fence with the skyline blurred behind"></button>
+        <button class="shot" data-cap="Charleston"><img loading="lazy" src="images/city-04-bridge-cables.jpg" alt="Bridge cables and tower seen from below against a blue sky"></button>
+        <button class="shot" data-cap="Sloss Furnaces, Birmingham"><img loading="lazy" src="images/city-05-sloss-silo.jpg" alt="A rusted silo and white water tower against clouds"></button>
+        <button class="shot" data-cap="Sloss Furnaces, Birmingham"><img loading="lazy" src="images/city-06-rock-stack.jpg" alt="A small stack of rocks by the water with industrial structures behind"></button>
+      </div>
+    </div>
+
+    <div class="set">
+      <h3>Events &amp; People</h3>
+      <div class="gallery">
+        <button class="shot" data-cap="Shaky Knees"><img loading="lazy" src="images/people-01-shaky-knees.jpg" alt="A glowing Shaky Knees sign above a festival crowd at night"></button>
+        <button class="shot" data-cap="Light painting"><img loading="lazy" src="images/people-02-steel-wool.jpg" alt="Light painting: a spinning ring of steel-wool sparks around a person at night, like a glowing portal"></button>
+        <button class="shot" data-cap="Minnesota"><img loading="lazy" src="images/people-03-fair-swing.jpg" alt="Riders on a swing carousel at a fair"></button>
+        <button class="shot" data-cap="Darren, Minnesota State Fair"><img loading="lazy" src="images/people-04-friend-bench.jpg" alt="A bearded man in a cap sitting on a bench, looking to the side"></button>
+        <button class="shot" data-cap="Joseph, River Ranch, Lafayette"><img loading="lazy" src="images/people-05-friend-garden.jpg" alt="A man with arms spread wide in a garden courtyard"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="made">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Design Work</h2>
+    </div>
+    <div class="made">
+      <article>
+        <button class="project row" aria-label="View all four showroom signs">
+          <img loading="lazy" src="images/signage-01-hon.jpg" alt="Showroom sign for a HON table in green" data-cap="HON">
+          <img loading="lazy" src="images/signage-02-jsi.jpg" alt="Showroom sign for a JSI desk in gray" data-cap="JSI">
+          <img loading="lazy" src="images/signage-03-indiana.jpg" alt="Showroom sign for an Indiana Furniture desk in teal" data-cap="Indiana Furniture">
+          <img loading="lazy" src="images/signage-04-hooker.jpg" alt="Showroom sign for a Hooker Furniture credenza in taupe" data-cap="Hooker Furniture">
+          <span class="badge">View all 4</span>
+        </button>
+        <h3>Showroom signage</h3>
+        <p class="tbd">Branded signage I designed for a multi-location showroom. It’s still in use today.</p>
+      </article>
+      <article>
+        <button class="project frame" aria-label="View website layout screenshots">
+          <span class="bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <img loading="lazy" src="images/web-gos-01-home.jpg" alt="Homepage of an office supply company website" data-cap="Homepage">
+          <img loading="lazy" src="images/web-gos-02-about.jpg" alt="About section with company story and four service highlights" data-cap="About section">
+          <img loading="lazy" src="images/web-gos-03-projects.jpg" alt="Furniture projects section with a featured project and photo strip" data-cap="Furniture projects">
+          <span class="badge">View all 3</span>
+        </button>
+        <h3>Company website layout</h3>
+        <p class="tbd">I spent several weeks designing the full layout for a multi-location distributor’s website. The final build was completed by the company’s web partner.</p>
+      </article>
+      <article>
+        <button class="project frame" aria-label="View Bay Circle screenshots">
+          <span class="bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <img class="cover-left" loading="lazy" src="images/web-bay-01-home.jpg" alt="Bay Circle homepage with navy background, gold accents, and the headline Making invisible systems visible" data-cap="Homepage">
+          <img loading="lazy" src="images/web-bay-02-case-study.jpg" alt="Bay Circle case study page header: The origin of the Seven Pillars" data-cap="Case study header">
+          <img loading="lazy" src="images/web-bay-03-pillars.jpg" alt="Bay Circle section applying the Seven Pillars to evaluate an operation" data-cap="Seven Pillars analysis">
+          <span class="badge">View all 3</span>
+        </button>
+        <h3>Bay Circle</h3>
+        <p class="tbd">Brand and website design for an operations consulting concept built around my Seven Pillars framework.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How I Work</h2>
+    </div>
+    <p class="how-intro tbd">Whether it’s a warehouse, a showroom, or a website, I tend to work the same way.</p>
+    <div class="principles">
+      <div>
+        <h3>Learn how it really works</h3>
+        <p class="tbd">Before I change anything, I watch how the work actually moves, not just how it’s supposed to.</p>
+      </div>
+      <div>
+        <h3>Make it make sense to everyone</h3>
+        <p class="tbd">If a process only works for the person who built it, it isn’t finished. I write it down and keep it simple enough for anyone to pick up.</p>
+      </div>
+      <div>
+        <h3>Leave it better than I found it</h3>
+        <p class="tbd">I build things to keep working without me: clear steps, clear owners, and fewer surprises.</p>
+      </div>
+    </div>
+    <div class="example">
+      <h3>In practice</h3>
+      <p class="tbd">At a multi-location distribution company, I researched and selected a digital proof-of-delivery system to replace paper records. I mapped how it would affect every role from drivers to accounting, worked out problems before launch, and led the team through the switch. Accounting went from five or six people to three, and nobody lost their job.</p>
+    </div>
+    <p class="how-note">I later shaped this approach into a framework I call the Seven Pillars. You can see it in the <a href="#made">Bay Circle project</a>.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>Contact me</h2>
+    <div class="contact-links">
+      <button class="btn copy-email" type="button" data-email="jorim.hukins@gmail.com" aria-live="polite"><span>jorim.hukins@gmail.com</span><span class="copy-hint">Copy</span></button>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/jorim-hukins-3b020a263/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Lafayette, Louisiana</span>
+    <span>Designed and built by Jorim Hukins</span>
+  </div>
+</footer>
+
+<dialog class="lightbox" aria-label="Photo viewer">
+  <div class="lb-inner">
+    <img alt="">
+    <div class="lb-cap"></div>
+  </div>
+  <button class="lb-btn lb-close" aria-label="Close">×</button>
+  <button class="lb-btn lb-prev" aria-label="Previous photo">‹</button>
+  <button class="lb-btn lb-next" aria-label="Next photo">›</button>
+</dialog>
+
+<script>
+// Highlight the nav link for the section on screen
+const links=[...document.querySelectorAll('.nav a.link')];
+const byId=Object.fromEntries(links.map(a=>[a.getAttribute('href').slice(1),a]));
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active')); byId[e.target.id]?.classList.add('active')}})},{rootMargin:'-45% 0px -50% 0px'});
+Object.keys(byId).forEach(id=>{const s=document.getElementById(id); if(s) io.observe(s)});
+
+// Photo viewer (gallery photos and Design Work projects)
+const lb=document.querySelector('.lightbox'), lbImg=lb.querySelector('img'), lbCap=lb.querySelector('.lb-cap');
+const prevB=lb.querySelector('.lb-prev'), nextB=lb.querySelector('.lb-next');
+let list=[], cur=0, opener=null;
+function show(i){cur=(i+list.length)%list.length; const it=list[cur]; lbImg.src=it.src(); lbImg.alt=it.alt; lbCap.textContent=it.cap+(list.length>1?`  ·  ${cur+1} of ${list.length}`:'')}
+function openViewer(items,i,btn){list=items; opener=btn; prevB.hidden=nextB.hidden=items.length<2; show(i); lb.showModal()}
+const item=(im,cap)=>({src:()=>im.currentSrc||im.src, alt:im.alt, cap:cap||''});
+const shots=[...document.querySelectorAll('.shot')];
+const shotItems=shots.map(b=>item(b.querySelector('img'),b.dataset.cap));
+shots.forEach((b,i)=>b.addEventListener('click',()=>openViewer(shotItems,i,b)));
+document.querySelectorAll('.project').forEach(p=>{const items=[...p.querySelectorAll('img')].map(im=>item(im,im.dataset.cap)); p.addEventListener('click',()=>openViewer(items,0,p))});
+lb.querySelector('.lb-close').onclick=()=>lb.close();
+prevB.onclick=()=>show(cur-1);
+nextB.onclick=()=>show(cur+1);
+lb.addEventListener('click',e=>{if(e.target===lb||e.target.classList.contains('lb-inner'))lb.close()});
+lb.addEventListener('keydown',e=>{if(list.length>1&&e.key==='ArrowLeft')show(cur-1); if(list.length>1&&e.key==='ArrowRight')show(cur+1)});
+lb.addEventListener('close',()=>opener&&opener.focus());
+
+// Copy email to clipboard instead of opening a mail app
+document.querySelectorAll('.copy-email').forEach(b=>b.addEventListener('click',async()=>{
+  const email=b.dataset.email, hint=b.querySelector('.copy-hint');
+  try{await navigator.clipboard.writeText(email)}
+  catch{const t=document.createElement('textarea'); t.value=email; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove()}
+  hint.textContent='Copied!'; setTimeout(()=>hint.textContent='Copy',2000);
+}));
+</script>
+</body>
+</html>
