@@ -33,8 +33,6 @@ a{color:inherit}
 .wrap{max-width:var(--wrap); margin:0 auto; padding:0 clamp(20px,5vw,48px)}
 h1,h2,h3{font-family:var(--font-display); font-weight:700; line-height:1.05; margin:0; letter-spacing:-.01em}
 
-/* Placeholder marker: delete class="tbd" once the text is final */
-.tbd{outline:1.5px dashed var(--accent); outline-offset:5px; border-radius:2px}
 
 /* ===== Navigation: sticky, takes its own space, never covers content ===== */
 body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); background:var(--bg); z-index:10}
@@ -99,6 +97,7 @@ dialog.lightbox::backdrop{background:transparent}
 .project{position:relative; display:block; width:100%; aspect-ratio:4/3; padding:0; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--panel); cursor:zoom-in; font:inherit; color:inherit; transition:border-color .2s}
 .project:hover{border-color:var(--accent)}
 .project.row{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:18px 14px; align-items:center}
+.project.row img.before{display:none}
 .project.row img{width:100%; height:auto; border-radius:3px; box-shadow:0 2px 8px rgba(46,36,29,.2)}
 .project.frame{display:flex; flex-direction:column; background:var(--bg)}
 .project.frame .bar{flex:none; height:24px; display:flex; align-items:center; gap:6px; padding:0 10px; background:var(--panel); border-bottom:1px solid var(--line)}
@@ -111,17 +110,6 @@ dialog.lightbox::backdrop{background:transparent}
 .made p{margin:0; color:var(--muted); max-width:46ch}
 
 /* ===== How I Work ===== */
-#how{border-top:1px solid var(--line)}
-.how-intro{max-width:44rem; font-size:1.25rem; margin:0 0 clamp(40px,6vw,64px)}
-.principles{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:clamp(28px,4vw,48px)}
-.principles > div{background:var(--sand); border-top:3px solid var(--accent); padding:22px 22px 24px; border-radius:6px; box-shadow:0 6px 18px rgba(46,36,29,.10)}
-.principles h3{font-size:1.35rem; margin-bottom:10px}
-.principles p{margin:0; color:var(--muted)}
-.how-note{margin:clamp(36px,5vw,56px) 0 0; color:var(--muted)}
-.how-note a{color:var(--ink); text-decoration-color:var(--accent); text-underline-offset:3px}
-.example{margin-top:clamp(48px,7vw,80px); padding:24px 28px; background:var(--sand); border-left:3px solid var(--accent); border-radius:6px; box-shadow:0 6px 18px rgba(46,36,29,.10); max-width:46rem}
-.example h3{font-size:1.35rem; margin-bottom:10px}
-.example p{margin:0}
 
 /* ===== Contact ===== */
 #contact{background:var(--panel)}
@@ -136,18 +124,39 @@ button.btn{border:0; font:inherit; font-weight:600; cursor:pointer}
 .btn-ghost:hover{background:var(--ink); color:var(--bg)}
 footer{padding:28px 0; font-size:.95rem; color:var(--muted)}
 footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px}
+
+/* Design Work cards: image + text as one sand card */
+.made article{background:var(--sand); border-radius:8px; padding:14px 14px 24px; box-shadow:0 6px 18px rgba(46,36,29,.10)}
+.made article .project{border-color:transparent}
+.made article .project.row{background:var(--bg)}
+.made article h3, .made article p{padding:0 8px}
+/* Nav icons */
+.nav ul{margin-left:auto}
+.nav-left{display:flex; align-items:center; gap:14px}
+.nav-icons{display:flex; gap:2px; padding-left:12px; border-left:1px solid var(--line)}
+.icon-btn{position:relative; display:grid; place-items:center; width:34px; height:34px; border:0; border-radius:50%; background:none; color:var(--muted); cursor:pointer; padding:0}
+.icon-btn:hover{color:var(--ink); background:var(--panel)}
+.icon-btn svg{width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.tip{position:absolute; top:calc(100% + 6px); right:0; background:var(--ink); color:var(--bg); font-size:.75rem; font-weight:600; padding:3px 8px; border-radius:4px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; margin:0; border:0; left:0; right:auto}
+.icon-btn:hover .tip, .icon-btn:focus-visible .tip, .tip.show{opacity:1}
+@media (max-width:640px){.nav ul{flex:1; min-width:0; margin-left:0} .nav-left{flex:none} .nav-icons{padding-left:0; border-left:0; padding-right:10px; border-right:1px solid var(--line)}}
 </style>
 </head>
 <body>
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <a class="name" href="#top">Jorim Hukins</a>
+    <div class="nav-left">
+      <a class="name" href="#top">Jorim Hukins</a>
+      <div class="nav-icons">
+        <button class="icon-btn copy-email" type="button" data-email="jorim.hukins@gmail.com" aria-label="Copy my email address"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg><span class="copy-hint tip">Copy email</span></button>
+        <a class="icon-btn" href="https://www.linkedin.com/in/jorim-hukins-3b020a263/" target="_blank" rel="noopener" aria-label="LinkedIn profile"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V17M8 7.3v.2M11.5 17v-6.5M11.5 13.5c0-1.8 1.2-3 2.7-3s2.3 1 2.3 2.8V17"/></svg><span class="tip">LinkedIn</span></a>
+      </div>
+    </div>
     <ul>
       <li><a class="link" href="#about">About</a></li>
       <li><a class="link" href="#lens">Photography</a></li>
       <li><a class="link" href="#made">Design Work</a></li>
-      <li><a class="link" href="#how">How I Work</a></li>
       <li><a class="link" href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -226,15 +235,16 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     </div>
     <div class="made">
       <article>
-        <button class="project row" aria-label="View all four showroom signs">
-          <img loading="lazy" src="images/signage-01-hon.jpg" alt="Showroom sign for a HON table in green" data-cap="HON">
-          <img loading="lazy" src="images/signage-02-jsi.jpg" alt="Showroom sign for a JSI desk in gray" data-cap="JSI">
-          <img loading="lazy" src="images/signage-03-indiana.jpg" alt="Showroom sign for an Indiana Furniture desk in teal" data-cap="Indiana Furniture">
-          <img loading="lazy" src="images/signage-04-hooker.jpg" alt="Showroom sign for a Hooker Furniture credenza in taupe" data-cap="Hooker Furniture">
-          <span class="badge">View all 4</span>
+        <button class="project row" aria-label="View the old spec sheet and the four showroom signs">
+          <img class="before" loading="lazy" src="images/signage-00-before.jpg" alt="A plain manufacturer spec sheet listing a bookcase SKU, description, quantity, and price on mostly empty white space" data-cap="Before: plain manufacturer spec sheet, similar to the ones I replaced">
+          <img loading="lazy" src="images/signage-01-hon.jpg" alt="Showroom sign for a HON table in green" data-cap="After: HON">
+          <img loading="lazy" src="images/signage-02-jsi.jpg" alt="Showroom sign for a JSI desk in gray" data-cap="After: JSI">
+          <img loading="lazy" src="images/signage-03-indiana.jpg" alt="Showroom sign for an Indiana Furniture desk in teal" data-cap="After: Indiana Furniture">
+          <img loading="lazy" src="images/signage-04-hooker.jpg" alt="Showroom sign for a Hooker Furniture credenza in taupe" data-cap="After: Hooker Furniture">
+          <span class="badge">Before &amp; after</span>
         </button>
         <h3>Showroom signage</h3>
-        <p class="tbd">Branded signage I designed for a multi-location showroom. It’s still in use today.</p>
+        <p>Branded signage for an office furniture showroom, still in use today. I replaced hard-to-read spec sheets with a color-coded design for each brand, then built a small Python tool that turns spreadsheet data into finished signs: it picks the right brand template, handles a whole batch at once, and lets me preview and fix errors before exporting print-ready PDFs.</p>
       </article>
       <article>
         <button class="project frame" aria-label="View website layout screenshots">
@@ -245,7 +255,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
           <span class="badge">View all 3</span>
         </button>
         <h3>Company website layout</h3>
-        <p class="tbd">I spent several weeks designing the full layout for a multi-location distributor’s website. The final build was completed by the company’s web partner.</p>
+        <p>I spent several weeks designing the full layout for a multi-location distributor’s website. The final build was completed by the company’s web partner.</p>
       </article>
       <article>
         <button class="project frame" aria-label="View Bay Circle screenshots">
@@ -256,39 +266,12 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
           <span class="badge">View all 3</span>
         </button>
         <h3>Bay Circle</h3>
-        <p class="tbd">Brand and website design for an operations consulting concept built around my Seven Pillars framework.</p>
+        <p>Brand and website design for an operations consulting concept built around my Seven Pillars framework.</p>
       </article>
     </div>
   </div>
 </section>
 
-<section id="how">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>How I Work</h2>
-    </div>
-    <p class="how-intro tbd">Whether it’s a warehouse, a showroom, or a website, I tend to work the same way.</p>
-    <div class="principles">
-      <div>
-        <h3>Learn how it really works</h3>
-        <p class="tbd">Before I change anything, I watch how the work actually moves, not just how it’s supposed to.</p>
-      </div>
-      <div>
-        <h3>Make it make sense to everyone</h3>
-        <p class="tbd">If a process only works for the person who built it, it isn’t finished. I write it down and keep it simple enough for anyone to pick up.</p>
-      </div>
-      <div>
-        <h3>Leave it better than I found it</h3>
-        <p class="tbd">I build things to keep working without me: clear steps, clear owners, and fewer surprises.</p>
-      </div>
-    </div>
-    <div class="example">
-      <h3>In practice</h3>
-      <p class="tbd">At a multi-location distribution company, I researched and selected a digital proof-of-delivery system to replace paper records. I mapped how it would affect every role from drivers to accounting, worked out problems before launch, and led the team through the switch. Accounting went from five or six people to three, and nobody lost their job.</p>
-    </div>
-    <p class="how-note">I later shaped this approach into a framework I call the Seven Pillars. You can see it in the <a href="#made">Bay Circle project</a>.</p>
-  </div>
-</section>
 
 <section id="contact">
   <div class="wrap">
@@ -296,6 +279,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <div class="contact-links">
       <button class="btn copy-email" type="button" data-email="jorim.hukins@gmail.com" aria-live="polite"><span>jorim.hukins@gmail.com</span><span class="copy-hint">Copy</span></button>
       <a class="btn btn-ghost" href="https://www.linkedin.com/in/jorim-hukins-3b020a263/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="Jorim_Hukins_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
     </div>
   </div>
 </section>
@@ -348,7 +332,7 @@ document.querySelectorAll('.copy-email').forEach(b=>b.addEventListener('click',a
   const email=b.dataset.email, hint=b.querySelector('.copy-hint');
   try{await navigator.clipboard.writeText(email)}
   catch{const t=document.createElement('textarea'); t.value=email; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove()}
-  hint.textContent='Copied!'; setTimeout(()=>hint.textContent='Copy',2000);
+  const orig=hint.textContent; hint.textContent='Copied!'; hint.classList.add('show'); setTimeout(()=>{hint.textContent=orig; hint.classList.remove('show')},2000);
 }));
 </script>
 </body>
